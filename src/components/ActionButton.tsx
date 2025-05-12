@@ -28,8 +28,8 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         disabled ? "opacity-50 cursor-not-allowed" : "hover:scale-105 active:scale-95"
       )}
     >
-      <div className="text-xl">{icon}</div>
-      <span className="text-xs font-medium mt-1">{label}</span>
+      <div className="text-lg">{icon}</div>
+      <span className="text-sm font-medium -mt-1">{label}</span>
     </Button>
   );
 };
