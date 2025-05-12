@@ -1,9 +1,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { MoonIcon, SunIcon } from 'lucide-react';
 import TamagotchiPet from './TamagotchiPet';
 import StatBar from './StatBar';
 import ActionButton from './ActionButton';
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
+import { useTheme } from '@/hooks/useTheme';
 
 // Pet state type
 type PetState = 'idle' | 'happy' | 'sad' | 'eating' | 'sleeping';
@@ -17,6 +20,7 @@ const Tamagotchi: React.FC = () => {
   const [isSleeping, setIsSleeping] = useState(false);
   
   const { toast } = useToast();
+  const { theme, setTheme } = useTheme();
   
   const MAX_STAT = 100;
   const TIME_DECREMENT_MS = 10000; // 10 seconds
@@ -145,15 +149,32 @@ const Tamagotchi: React.FC = () => {
       });
     }
   }, [isSleeping, toast]);
+
+  const handleThemeChange = (checked: boolean) => {
+    setTheme(checked ? 'dark' : 'light');
+    toast({
+      title: checked ? "Dark mode activated" : "Light mode activated",
+      description: checked ? "Your pet is ready for the night!" : "Rise and shine!",
+    });
+  };
   
   return (
-    <div className="pet-container w-full max-w-md mx-auto">
-      <div className="text-center mb-4">
-        <h1 className="text-2xl font-bold text-tamagotchi-dark">My Tamagotchi</h1>
-        <p className="text-sm text-gray-500">Take care of your virtual pet!</p>
+    <div className="pet-container w-full max-w-md mx-auto dark:bg-tamagotchi-dark dark:border-tamagotchi-purple/50">
+      <div className="text-center mb-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-tamagotchi-dark dark:text-white">My Tamagotchi</h1>
+        <div className="flex items-center gap-2">
+          <SunIcon className="w-4 h-4 text-tamagotchi-yellow dark:text-tamagotchi-yellow/70" />
+          <Switch
+            checked={theme === 'dark'}
+            onCheckedChange={handleThemeChange}
+            className="data-[state=checked]:bg-tamagotchi-purple"
+          />
+          <MoonIcon className="w-4 h-4 text-tamagotchi-purple dark:text-tamagotchi-purple/70" />
+        </div>
       </div>
+      <p className="text-sm text-gray-500 dark:text-gray-400 -mt-2 mb-4">Take care of your virtual pet!</p>
       
-      <div className="mb-6 aspect-square bg-tamagotchi-pink rounded-2xl p-4 relative overflow-hidden">
+      <div className="mb-6 aspect-square bg-tamagotchi-pink dark:bg-tamagotchi-dark/50 rounded-2xl p-4 relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="w-full h-full bg-grid-pattern"></div>
         </div>
@@ -161,9 +182,9 @@ const Tamagotchi: React.FC = () => {
       </div>
       
       <div className="mb-6">
-        <StatBar label="Hunger" value={hunger} maxValue={MAX_STAT} color="#FEF7CD" />
-        <StatBar label="Happiness" value={happiness} maxValue={MAX_STAT} color="#E5DEFF" />
-        <StatBar label="Energy" value={energy} maxValue={MAX_STAT} color="#F2FCE2" />
+        <StatBar label="Hunger" value={hunger} maxValue={MAX_STAT} color="#FEF7CD" darkColor="#FEF7CD" />
+        <StatBar label="Happiness" value={happiness} maxValue={MAX_STAT} color="#E5DEFF" darkColor="#E5DEFF" />
+        <StatBar label="Energy" value={energy} maxValue={MAX_STAT} color="#F2FCE2" darkColor="#F2FCE2" />
       </div>
       
       <div className="grid grid-cols-3 gap-2">
@@ -171,21 +192,21 @@ const Tamagotchi: React.FC = () => {
           icon="🍔"
           label="Feed"
           onClick={feedPet}
-          color="bg-tamagotchi-yellow"
+          color="bg-tamagotchi-yellow dark:bg-tamagotchi-yellow/70"
           disabled={isSleeping}
         />
         <ActionButton
           icon="🎮"
           label="Play"
           onClick={playWithPet}
-          color="bg-tamagotchi-purple"
+          color="bg-tamagotchi-purple dark:bg-tamagotchi-purple/70"
           disabled={isSleeping || energy < 10}
         />
         <ActionButton
           icon={isSleeping ? "⏰" : "😴"}
           label={isSleeping ? "Wake" : "Sleep"}
           onClick={toggleSleep}
-          color="bg-tamagotchi-blue"
+          color="bg-tamagotchi-blue dark:bg-tamagotchi-blue/70"
         />
       </div>
     </div>
