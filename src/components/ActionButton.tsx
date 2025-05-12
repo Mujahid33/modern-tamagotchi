@@ -29,7 +29,6 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       )}
     >
       <div className="text-lg">{icon}</div>
-      <span className="text-sm font-medium mt-1">{label}</span>
     </Button>
   );
 };
