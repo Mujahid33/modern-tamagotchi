@@ -28,7 +28,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         disabled ? "opacity-50 cursor-not-allowed" : "hover:scale-105 active:scale-95"
       )}
     >
-      <div className="text-lg">{icon}</div>
+      <div className="text-md">{icon}</div>
       <span className="text-sm font-medium">{label}</span>
     </Button>
   );
