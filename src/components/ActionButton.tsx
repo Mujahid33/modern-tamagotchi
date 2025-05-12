@@ -23,7 +23,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex flex-col items-center justify-center p-3 rounded-xl transition-all",
+        "flex flex-col items-center justify-center rounded-xl transition-all",
         color,
         disabled ? "opacity-50 cursor-not-allowed" : "hover:scale-105 active:scale-95"
       )}
